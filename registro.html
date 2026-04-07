@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crear cuenta — Salón social</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/estilos.css" />
+  </head>
+  <body class="login-page">
+    <div class="login-box card">
+      <h1>Crear usuario</h1>
+      <p class="sub">
+        Registre una cuenta con perfil <strong>residente</strong> para solicitar reservas y ver avisos. La administración
+        puede desactivar cuentas que no correspondan a la unidad.
+      </p>
+      <div id="msg-error" class="msg error hidden" role="alert"></div>
+      <div id="msg-ok" class="msg ok hidden" role="status"></div>
+      <form id="form-registro">
+        <label for="reg-username">Usuario</label>
+        <input id="reg-username" name="username" autocomplete="username" required maxlength="64" />
+        <label for="reg-email">Correo electrónico</label>
+        <input id="reg-email" name="email" type="email" autocomplete="email" required maxlength="128" />
+        <label for="reg-password">Contraseña</label>
+        <input id="reg-password" name="password" type="password" autocomplete="new-password" required minlength="8" />
+        <label for="reg-password2">Confirmar contraseña</label>
+        <input id="reg-password2" name="password_confirm" type="password" autocomplete="new-password" required minlength="8" />
+        <p style="margin-top: 1.25rem">
+          <button type="submit">Crear cuenta y entrar</button>
+        </p>
+      </form>
+      <p class="sub" style="margin-top: 1.25rem; margin-bottom: 0">
+        ¿Ya tiene cuenta? <a href="login.html">Iniciar sesión</a>
+      </p>
+    </div>
+    <script src="js/common.js"></script>
+    <script src="js/registro.js"></script>
+  </body>
+</html>

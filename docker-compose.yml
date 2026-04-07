@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+
+  # Servidor web Apache + PHP (reemplaza XAMPP)
+  web:
+    build: .
+    ports:
+      - "8080:80"             # Tu app en http://localhost:8080
+    volumes:
+      - .:/var/www/html       # Cambios en vivo sin reconstruir
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+
+  # Base de datos MySQL (reemplaza MySQL de XAMPP)
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db/migrations:/docker-entrypoint-initdb.d   # Carga los .sql en orden numérico
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Gestor visual de BD (reemplaza phpMyAdmin)
+  adminer:
+    image: adminer
+    ports:
+      - "8081:8080"           # Gestor de BD en http://localhost:8081
+    depends_on:
+      - db
+
+volumes:
+  db_data:

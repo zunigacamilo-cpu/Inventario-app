@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Inventario — Salón social</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/estilos.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>Inventario del salón</h1>
+      <nav>
+        <a href="panel.html">Inicio</a>
+        <a href="reservas.html">Reservas</a>
+        <a href="comunicados.html">Avisos</a>
+        <a href="inventario.html" class="active">Inventario del salón</a>
+        <a href="usuarios.html" id="nav-usuarios" class="hidden">Usuarios</a>
+        <span class="user-meta"><span id="user-name"></span></span>
+        <button type="button" class="secondary" id="btn-logout">Salir</button>
+      </nav>
+    </header>
+    <main class="wrap">
+      <div id="msg-error" class="msg error hidden" role="alert"></div>
+      <div id="msg-ok" class="msg ok hidden" role="status"></div>
+
+      <div class="card hidden" id="card-categoria">
+        <h2>Nueva categoría</h2>
+        <form id="form-categoria" class="form-grid" style="align-items: end">
+          <div>
+            <label for="cat-nombre">Nombre</label>
+            <input id="cat-nombre" required />
+          </div>
+          <div>
+            <label for="cat-desc">Descripción</label>
+            <input id="cat-desc" />
+          </div>
+          <div>
+            <button type="submit">Añadir categoría</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <p class="user-meta" style="margin-top: -0.5rem; margin-bottom: 1rem">
+          Registre sillas, mesas, mantelería, vajilla y demás insumos del salón para planificar eventos y mantenimiento.
+        </p>
+        <h2>Nuevo insumo</h2>
+        <form id="form-insumo">
+          <div class="form-grid">
+            <div>
+              <label for="ins-codigo">Código único</label>
+              <input id="ins-codigo" required />
+            </div>
+            <div>
+              <label for="ins-nombre">Nombre</label>
+              <input id="ins-nombre" required />
+            </div>
+            <div>
+              <label for="ins-categoria">Categoría</label>
+              <select id="ins-categoria"></select>
+            </div>
+            <div>
+              <label for="ins-unidad">Unidad de medida</label>
+              <input id="ins-unidad" placeholder="unidad, kg, caja…" />
+            </div>
+            <div>
+              <label for="ins-stock">Stock actual</label>
+              <input id="ins-stock" type="number" step="0.01" value="0" />
+            </div>
+            <div>
+              <label for="ins-min">Stock mínimo</label>
+              <input id="ins-min" type="number" step="0.01" value="0" />
+            </div>
+            <div>
+              <label for="ins-ubicacion">Ubicación</label>
+              <input id="ins-ubicacion" />
+            </div>
+          </div>
+          <label for="ins-desc" style="margin-top: 1rem">Descripción</label>
+          <textarea id="ins-desc"></textarea>
+          <p style="margin-top: 1rem">
+            <button type="submit">Guardar insumo</button>
+          </p>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Relacionar insumos</h2>
+        <p class="user-meta" style="margin-top: -0.5rem; margin-bottom: 1rem">
+          La tabla <code>relaciones_insumo</code> enlaza dos insumos con un <strong>tipo de relación</strong>
+          (complemento, sustituto, componente de, incompatible, asociado) y opcionalmente una cantidad de
+          referencia.
+        </p>
+        <form id="form-relacion">
+          <div class="form-grid">
+            <div>
+              <label for="rel-origen">Insumo origen</label>
+              <select id="rel-origen" required></select>
+            </div>
+            <div>
+              <label for="rel-destino">Insumo destino</label>
+              <select id="rel-destino" required></select>
+            </div>
+            <div>
+              <label for="rel-tipo">Tipo de relación</label>
+              <select id="rel-tipo" required></select>
+            </div>
+            <div>
+              <label for="rel-cant">Cantidad referencia (opcional)</label>
+              <input id="rel-cant" type="number" step="0.0001" placeholder="Ej. 3 por unidad de origen" />
+            </div>
+          </div>
+          <label for="rel-notas" style="margin-top: 1rem">Notas</label>
+          <textarea id="rel-notas"></textarea>
+          <p style="margin-top: 1rem">
+            <button type="submit">Crear relación</button>
+          </p>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Relaciones registradas</h2>
+        <label for="filtro-insumo-rel">Filtrar por insumo (cualquiera de los extremos)</label>
+        <select id="filtro-insumo-rel" style="max-width: 420px; margin-bottom: 1rem"></select>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Origen</th>
+                <th>Destino</th>
+                <th>Tipo</th>
+                <th>Cant. ref.</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tbody-relaciones"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Insumos en inventario</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Stock</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tbody-insumos"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+    <script src="js/common.js"></script>
+    <script src="js/inventario.js"></script>
+  </body>
+</html>

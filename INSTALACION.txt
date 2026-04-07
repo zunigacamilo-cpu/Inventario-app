@@ -1,0 +1,59 @@
+Instalación en XAMPP 
+================================
+
+1) Copie la carpeta `inventario-app` dentro del directorio de documentos de Apache,
+   por ejemplo:
+   /opt/lampp/htdocs/inventario-app
+
+2) Inicie Apache y MySQL desde el panel de XAMPP (o con lampp start).
+
+3) Cree la base de datos importando el script SQL:
+   - Abra phpMyAdmin (http://localhost/phpmyadmin)
+   - Pestaña "Importar" y elija el archivo: inventario-app/sql/schema.sql
+   O por terminal:
+   /opt/lampp/bin/mysql -u root -p < /opt/lampp/htdocs/inventario-app/sql/schema.sql
+   Si ya tenía una base creada con un esquema anterior, ejecute además una sola vez:
+   inventario-app/sql/migration_salon.sql
+   (tablas reservas_salon, salon_config, comunicados y textos de perfiles).
+
+4) Configure la conexión MySQL en includes/config.php si no usa usuario root sin
+   contraseña (valores por defecto típicos de XAMPP):
+   DB_HOST = 127.0.0.1
+   DB_NAME = inventario_app
+   DB_USER = root
+   DB_PASS = ''
+
+5) Abra en el navegador:
+   http://localhost/inventario-app/login.html
+   Los residentes también pueden crearse una cuenta en:
+   http://localhost/inventario-app/registro.html
+   (perfil residente activo; la administración puede desactivar usuarios desde Usuarios).
+
+Usuario inicial (solo desarrollo)
+---------------------------------
+  Usuario: admin
+  Contraseña: password
+
+Cambie esta contraseña en entornos reales (por ejemplo actualizando password_hash
+en la tabla usuarios con un script PHP de una sola ejecución).
+
+Perfiles
+--------
+  administrador (id 1): usuarios; política de anticipación y condiciones del salón;
+    confirma/rechaza reservas; publica avisos; inventario y categorías.
+  residente (id 2): solicita reservas (con anticipación mínima); consulta inventario y avisos.
+  supervisor (id 3): consulta reservas, inventario y avisos.
+
+Funcionalidad del salón social
+------------------------------
+  - Reservas con validación de anticipación mínima (configurable) y sin solapes entre
+    solicitudes pendientes o confirmadas.
+  - Inventario orientado a mobiliario e insumos del salón (sillas, mesas, etc.).
+  - Comunicados de administración visibles para todos los usuarios autenticados.
+
+Notas
+-----
+- El front usa JavaScript con fetch hacia los scripts PHP en la carpeta api/;
+  debe servir la aplicación por HTTP (no abra los HTML como file://).
+- Si aparece error de conexión a la base de datos, revise que MySQL esté en
+  marcha y que el nombre de la base `inventario_app` exista.

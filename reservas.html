@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reservas — Salón social</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/estilos.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>Reservas del salón</h1>
+      <nav>
+        <a href="panel.html">Inicio</a>
+        <a href="reservas.html" class="active">Reservas</a>
+        <a href="comunicados.html">Avisos</a>
+        <a href="inventario.html">Inventario del salón</a>
+        <a href="usuarios.html" id="nav-usuarios" class="hidden">Usuarios</a>
+        <span class="user-meta"><span id="user-name"></span></span>
+        <button type="button" class="secondary" id="btn-logout">Salir</button>
+      </nav>
+    </header>
+    <main class="wrap">
+      <div id="msg-error" class="msg error hidden" role="alert"></div>
+      <div id="msg-ok" class="msg ok hidden" role="status"></div>
+
+      <div class="card" id="card-condiciones">
+        <h2>Condiciones de uso</h2>
+        <p id="texto-condiciones" class="user-meta" style="margin: 0; white-space: pre-wrap"></p>
+        <p class="user-meta" style="margin-top: 1rem; margin-bottom: 0">
+          <strong id="label-anticipacion"></strong>
+        </p>
+      </div>
+
+      <div class="card hidden" id="card-config-admin">
+        <h2>Política de reservas (administración)</h2>
+        <p class="user-meta" style="margin-top: -0.5rem; margin-bottom: 1rem">
+          Ajuste la anticipación mínima y el texto de condiciones que ven los residentes.
+        </p>
+        <form id="form-config" class="form-grid" style="align-items: end">
+          <div>
+            <label for="cfg-horas">Anticipación mínima (horas)</label>
+            <input id="cfg-horas" type="number" min="1" max="8760" required />
+          </div>
+          <div style="grid-column: 1 / -1">
+            <label for="cfg-texto">Texto de condiciones</label>
+            <textarea id="cfg-texto" rows="5"></textarea>
+          </div>
+          <div>
+            <button type="submit">Guardar política</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Nueva reserva</h2>
+        <p class="user-meta" style="margin-top: -0.5rem; margin-bottom: 1rem">
+          Elija inicio y fin del uso del salón. La solicitud queda <strong>pendiente</strong> hasta que administración la confirme.
+        </p>
+        <form id="form-reserva" class="form-grid">
+          <div>
+            <label for="res-inicio">Inicio</label>
+            <input id="res-inicio" type="datetime-local" required />
+          </div>
+          <div>
+            <label for="res-fin">Fin</label>
+            <input id="res-fin" type="datetime-local" required />
+          </div>
+          <div style="grid-column: 1 / -1">
+            <label for="res-motivo">Motivo / evento</label>
+            <input id="res-motivo" required maxlength="500" placeholder="Ej. Reunión de copropietarios, cumpleaños…" />
+          </div>
+          <div>
+            <button type="submit">Solicitar reserva</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Calendario de reservas</h2>
+        <p class="user-meta" style="margin-top: -0.5rem; margin-bottom: 1rem">
+          Se muestran solicitudes pendientes y confirmadas en el rango visible para coordinar el uso del salón.
+        </p>
+        <div class="form-grid" style="margin-bottom: 1rem; max-width: 520px">
+          <div>
+            <label for="filtro-desde">Desde</label>
+            <input id="filtro-desde" type="date" />
+          </div>
+          <div>
+            <label for="filtro-hasta">Hasta</label>
+            <input id="filtro-hasta" type="date" />
+          </div>
+          <div>
+            <label style="visibility: hidden">Acción</label>
+            <button type="button" class="secondary" id="btn-refrescar">Actualizar lista</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Inicio</th>
+                <th>Fin</th>
+                <th>Residente</th>
+                <th>Motivo</th>
+                <th>Estado</th>
+                <th>Notas admin.</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tbody-reservas"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+    <script src="js/common.js"></script>
+    <script src="js/reservas.js"></script>
+  </body>
+</html>

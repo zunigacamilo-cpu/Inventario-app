@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Avisos — Salón social</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/estilos.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>Avisos de administración</h1>
+      <nav>
+        <a href="panel.html">Inicio</a>
+        <a href="reservas.html">Reservas</a>
+        <a href="comunicados.html" class="active">Avisos</a>
+        <a href="inventario.html">Inventario del salón</a>
+        <a href="usuarios.html" id="nav-usuarios" class="hidden">Usuarios</a>
+        <span class="user-meta"><span id="user-name"></span></span>
+        <button type="button" class="secondary" id="btn-logout">Salir</button>
+      </nav>
+    </header>
+    <main class="wrap">
+      <div id="msg-error" class="msg error hidden" role="alert"></div>
+      <div id="msg-ok" class="msg ok hidden" role="status"></div>
+
+      <div class="card hidden" id="card-nuevo-aviso">
+        <h2>Publicar aviso</h2>
+        <p class="user-meta" style="margin-top: -0.5rem; margin-bottom: 1rem">
+          Los residentes verán este mensaje en la lista de avisos y un resumen en el panel de inicio.
+        </p>
+        <form id="form-comunicado">
+          <div>
+            <label for="com-titulo">Título</label>
+            <input id="com-titulo" required maxlength="200" />
+          </div>
+          <label for="com-cuerpo" style="margin-top: 1rem">Mensaje</label>
+          <textarea id="com-cuerpo" required rows="6" placeholder="Horarios, normas temporales, mantenimiento del salón…"></textarea>
+          <p style="margin-top: 1rem">
+            <button type="submit">Publicar</button>
+          </p>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Historial de avisos</h2>
+        <p class="user-meta" style="margin-top: -0.5rem; margin-bottom: 1rem">
+          Comunicación oficial de la administración con la unidad sobre el salón social y convivencia.
+        </p>
+        <ul id="lista-comunicados" class="lista-comunicados"></ul>
+      </div>
+    </main>
+    <script src="js/common.js"></script>
+    <script src="js/comunicados.js"></script>
+  </body>
+</html>
