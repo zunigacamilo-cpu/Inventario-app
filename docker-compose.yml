@@ -1,19 +1,19 @@
-version: '3.8'
-
 services:
 
   # Servidor web Apache + PHP (reemplaza XAMPP)
   web:
     build: .
     ports:
-      - "8080:80"             # Tu app en http://localhost:8080
+      - "${APP_PORT:-8080}:80"             # Tu app en http://localhost:8080
     volumes:
       - .:/var/www/html       # Cambios en vivo sin reconstruir
     depends_on:
       db:
         condition: service_healthy
+    restart: unless-stopped
     environment:
       DB_HOST: db
+      DB_PORT: 3306
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
@@ -22,7 +22,7 @@ services:
   db:
     image: mysql:8.0
     ports:
-      - "3306:3306"
+      - "${DB_PORT_HOST:-3306}:3306"
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
@@ -31,6 +31,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./db/migrations:/docker-entrypoint-initdb.d   # Carga los .sql en orden numérico
+    restart: unless-stopped
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
@@ -41,9 +42,10 @@ services:
   adminer:
     image: adminer
     ports:
-      - "8081:8080"           # Gestor de BD en http://localhost:8081
+      - "${ADMINER_PORT:-8081}:8080"           # Gestor de BD en http://localhost:8081
     depends_on:
       - db
+    restart: unless-stopped
 
 volumes:
   db_data:
