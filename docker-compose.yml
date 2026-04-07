@@ -33,10 +33,10 @@ services:
       - ./db/migrations:/docker-entrypoint-initdb.d   # Carga los .sql en orden numérico
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$${MYSQL_ROOT_PASSWORD} --silent"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 10
 
   # Gestor visual de BD (reemplaza phpMyAdmin)
   adminer:

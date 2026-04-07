@@ -117,8 +117,7 @@ CREATE TABLE relaciones_insumo (
     ON UPDATE CASCADE ON DELETE CASCADE,
   CONSTRAINT fk_rel_destino
     FOREIGN KEY (insumo_destino_id) REFERENCES insumos (id)
-    ON UPDATE CASCADE ON DELETE CASCADE,
-  CONSTRAINT chk_rel_distintos CHECK (insumo_origen_id <> insumo_destino_id)
+    ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Política del salón: anticipación mínima para reservar (horas). Editable por administrador vía API/panel.
