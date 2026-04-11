@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Panel — Salón social</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/estilos.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>Salón social</h1>
+      <nav>
+        <a href="panel.html" class="active">Inicio</a>
+        <a href="reservas.html">Reservas</a>
+        <a href="comunicados.html">Avisos</a>
+        <a href="inventario.html">Inventario del salón</a>
+        <a href="usuarios.html" id="nav-usuarios" class="hidden">Usuarios</a>
+        <span class="user-meta"
+          ><span id="user-name"></span> · <span id="user-perfil" class="badge"></span
+        ></span>
+        <button type="button" class="secondary" id="btn-logout">Salir</button>
+      </nav>
+    </header>
+    <main class="wrap">
+      <div class="card">
+        <h2>Bienvenido</h2>
+        <p>
+          Esta aplicación apoya la <strong>gestión del salón social</strong>: reservas con anticipación,
+          inventario de mobiliario e insumos (sillas, mesas, mantelería, etc.) y
+          <strong>avisos</strong> de administración para reducir conflictos y coordinar el uso del espacio.
+        </p>
+        <ul class="user-meta" style="margin: 1rem 0 0; padding-left: 1.2rem; line-height: 1.7">
+          <li><a href="reservas.html">Reservas</a> — solicitar horarios; la administración confirma o rechaza.</li>
+          <li><a href="comunicados.html">Avisos</a> — comunicados oficiales hacia los residentes.</li>
+          <li><a href="inventario.html">Inventario del salón</a> — existencias y relaciones entre ítems.</li>
+        </ul>
+        <p id="hint-admin" class="hidden" style="margin-top: 1rem">
+          Como <strong>administrador</strong>, gestione usuarios en <a href="usuarios.html">Usuarios</a>, la política de
+          anticipación en <a href="reservas.html">Reservas</a> y publique avisos en <a href="comunicados.html">Avisos</a>.
+        </p>
+        <p id="hint-supervisor" class="hidden" style="margin-top: 1rem">
+          Como <strong>supervisor</strong>, puede <a href="usuarios.html">consultar el listado de usuarios</a> (solo lectura),
+          gestionar insumos en <a href="inventario.html">Inventario</a>, <strong>confirmar o rechazar reservas</strong> en
+          <a href="reservas.html">Reservas</a> y colaborar en avisos según las políticas del conjunto.
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>Últimos avisos</h2>
+        <p class="user-meta" style="margin-top: -0.5rem; margin-bottom: 1rem">
+          Resumen de lo publicado por administración. <a href="comunicados.html">Ver todos</a>
+        </p>
+        <ul id="avisos-recientes" class="avisos-panel user-meta"></ul>
+      </div>
+    </main>
+    <script src="js/common.js"></script>
+    <script src="js/panel.js"></script>
+    <script>
+      InventarioApp.requireAuth().then(function (u) {
+        if (!u) return;
+        if (InventarioApp.esAdminUsuario(u)) document.getElementById("hint-admin").classList.remove("hidden");
+        if (InventarioApp.esSupervisorUsuario(u)) document.getElementById("hint-supervisor").classList.remove("hidden");
+      });
+    </script>
+  </body>
+</html>

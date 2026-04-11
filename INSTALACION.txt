@@ -1,0 +1,182 @@
+===============================================================
+  INVENTARIO APP — GUÍA DE INSTALACIÓN CON DOCKER
+===============================================================
+
+Esta guía permite correr la aplicación en cualquier computador
+sin necesidad de instalar XAMPP, PHP ni MySQL por separado.
+Solo se necesita Docker.
+
+
+---------------------------------------------------------------
+  REQUISITOS PREVIOS
+---------------------------------------------------------------
+
+1. Instalar Docker Desktop:
+   - Windows / Mac: https://www.docker.com/products/docker-desktop
+   - Linux (Ubuntu): https://docs.docker.com/engine/install/ubuntu/
+
+2. Verificar que Docker quedó instalado correctamente.
+   Abra una terminal y ejecute:
+
+       docker --version
+
+   Debe mostrar algo como: Docker version 24.x.x
+
+
+---------------------------------------------------------------
+  PASO 1 — DESCARGAR / CLONAR EL PROYECTO
+---------------------------------------------------------------
+
+Opción A — Desde Git (recomendado):
+
+    git clone <URL-del-repositorio>
+    cd inventario-app-docker
+
+Opción B — Desde un archivo ZIP:
+
+    Descomprima el archivo y abra una terminal dentro de la
+    carpeta resultante (inventario-app-docker).
+
+
+---------------------------------------------------------------
+  PASO 2 — CREAR EL ARCHIVO DE CONFIGURACIÓN
+---------------------------------------------------------------
+
+Copie el archivo de ejemplo y renómbrelo:
+
+  Windows (PowerShell):
+      Copy-Item .env.example .env
+
+  Mac / Linux:
+      cp .env.example .env
+
+Luego abra el archivo .env con cualquier editor de texto
+y complete los valores:
+
+    DB_ROOT_PASSWORD=root_secreto
+    DB_NAME=inventario_app
+    DB_USER=inventario_user
+    DB_PASS=inventario_pass
+
+Puede dejar esos mismos valores si es para pruebas locales.
+
+
+---------------------------------------------------------------
+  PASO 3 — LEVANTAR LA APLICACIÓN
+---------------------------------------------------------------
+
+En la terminal, dentro de la carpeta del proyecto, ejecute:
+
+    docker-compose up --build
+
+La primera vez descarga las imágenes necesarias y puede
+tardar unos minutos dependiendo de la conexión a internet.
+
+Cuando vea en la terminal el mensaje:
+
+    inventario-app-docker-db-1  | ready for connections
+
+...la aplicación ya está lista para usar.
+
+
+---------------------------------------------------------------
+  PASO 4 — ABRIR EN EL NAVEGADOR
+---------------------------------------------------------------
+
+  Aplicación:       http://localhost:8080/login.html
+  Gestor de BD:     http://localhost:8081
+
+  Usuario inicial:
+    - Usuario:      admin
+    - Contraseña:   password
+
+  IMPORTANTE: Cambie esta contraseña antes de usar la app
+  en un entorno real.
+
+
+---------------------------------------------------------------
+  PARA APAGAR LA APLICACIÓN
+---------------------------------------------------------------
+
+En la misma terminal donde ejecutó docker-compose, presione:
+
+    Ctrl + C
+
+O desde otra terminal en la misma carpeta:
+
+    docker-compose down
+
+
+---------------------------------------------------------------
+  PARA VOLVER A ENCENDERLA (sin reconstruir)
+---------------------------------------------------------------
+
+    docker-compose up
+
+
+---------------------------------------------------------------
+  PARA REINICIAR DESDE CERO (borra los datos de la BD)
+---------------------------------------------------------------
+
+    docker-compose down -v
+    docker-compose up --build
+
+
+---------------------------------------------------------------
+  GESTOR VISUAL DE BASE DE DATOS (Adminer)
+---------------------------------------------------------------
+
+Adminer reemplaza a phpMyAdmin. Para acceder:
+
+    URL:      http://localhost:8081
+    Motor:    MySQL
+    Servidor: db
+    Usuario:  inventario_user
+    Contraseña: inventario_pass
+    Base:     inventario_app
+
+
+---------------------------------------------------------------
+  ESTRUCTURA DEL PROYECTO
+---------------------------------------------------------------
+
+  inventario-app-docker/
+  ├── Dockerfile              Configuración de Apache + PHP
+  ├── docker-compose.yml      Orquesta los servicios
+  ├── .env                    Contraseñas (NO compartir)
+  ├── .env.example            Plantilla vacía para otros usuarios
+  ├── .gitignore              Archivos que Git ignora
+  ├── db/
+  │   └── migrations/         Scripts SQL cargados automáticamente
+  │       └── 001_schema_inicial.sql
+  ├── api/                    Endpoints PHP
+  ├── includes/               Configuración y autenticación
+  ├── css/                    Estilos
+  ├── js/                     Lógica del frontend
+  └── *.html                  Páginas de la aplicación
+
+
+---------------------------------------------------------------
+  SOLUCIÓN DE PROBLEMAS FRECUENTES
+---------------------------------------------------------------
+
+Problema: "port is already allocated" al levantar Docker
+Solución: El puerto 8080 o 3306 está ocupado (XAMPP activo).
+          Detenga XAMPP o cambie el puerto en docker-compose.yml:
+          "8080:80"  →  "8090:80"
+
+Problema: La página carga pero no conecta a la base de datos
+Solución: Espere 30 segundos y recargue. MySQL tarda un momento
+          en inicializarse la primera vez.
+
+Problema: "docker-compose: command not found"
+Solución: En versiones nuevas de Docker el comando es:
+          docker compose up --build  (sin guion)
+
+Problema: Los cambios en el código no se reflejan
+Solución: Los archivos se sincronizan en tiempo real gracias
+          al volumen configurado. Recargue el navegador (Ctrl+F5).
+
+===============================================================
+  Desarrollado con PHP 8.1 · MySQL 8.0 · Apache · Docker
+===============================================================

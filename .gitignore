@@ -1,0 +1,16 @@
+# Variables de entorno — NUNCA subir a Git
+.env
+
+# Datos del volumen de Docker (se regeneran solos)
+db_data/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Editores
+.vscode/
+.idea/

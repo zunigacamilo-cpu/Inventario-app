@@ -1,0 +1,6 @@
+# Evita que el navegador sirva HTML en caché (p. ej. bfcache) con permisos de otro usuario.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|htm)$">
+    Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+  </FilesMatch>
+</IfModule>

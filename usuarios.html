@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Usuarios — Salón social</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/estilos.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>Usuarios</h1>
+      <nav>
+        <a href="panel.html">Inicio</a>
+        <a href="reservas.html">Reservas</a>
+        <a href="comunicados.html">Avisos</a>
+        <a href="inventario.html">Inventario del salón</a>
+        <a href="usuarios.html" class="active">Usuarios</a>
+        <span class="user-meta"><span id="user-name"></span></span>
+        <button type="button" class="secondary" id="btn-logout">Salir</button>
+      </nav>
+    </header>
+    <main class="wrap">
+      <div id="msg-error" class="msg error hidden" role="alert"></div>
+      <div id="msg-ok" class="msg ok hidden" role="status"></div>
+
+      <div class="card">
+        <h2>Crear usuario</h2>
+        <p class="user-meta" style="margin-top: -0.5rem; margin-bottom: 1rem">
+          Los <strong>supervisores</strong> pueden ver el listado más abajo. Solo el
+          <strong>administrador</strong> puede crear, activar o eliminar usuarios.
+        </p>
+        <form id="form-usuario">
+          <div class="form-grid">
+            <div>
+              <label for="nuevo-user">Usuario</label>
+              <input id="nuevo-user" required autocomplete="off" />
+            </div>
+            <div>
+              <label for="nuevo-email">Correo</label>
+              <input id="nuevo-email" type="email" required />
+            </div>
+            <div>
+              <label for="nuevo-pass">Contraseña</label>
+              <input id="nuevo-pass" type="password" required autocomplete="new-password" />
+            </div>
+            <div>
+              <label for="nuevo-perfil">Perfil</label>
+              <select id="nuevo-perfil" required></select>
+            </div>
+          </div>
+          <p style="margin-top: 1rem">
+            <button type="submit">Crear usuario</button>
+          </p>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Listado</h2>
+        <p class="user-meta" style="margin-top: -0.5rem; margin-bottom: 1rem">
+          Consulta de cuentas: supervisores solo lectura; el administrador usa <em>Acciones</em> para cambiar estado o eliminar.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Correo</th>
+                <th>Perfil</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-usuarios"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+    <script src="js/common.js"></script>
+    <script src="js/usuarios.js"></script>
+  </body>
+</html>

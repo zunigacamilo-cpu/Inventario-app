@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Iniciar sesión — Salón social</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/estilos.css" />
+  </head>
+  <body class="login-page">
+    <div class="login-box card">
+      <h1>Salón social</h1>
+      <p class="sub">Reservas, inventario del salón y avisos de administración. Inicie sesión con su usuario.</p>
+      <div id="msg-error" class="msg error hidden" role="alert"></div>
+      <form id="form-login">
+        <label for="username">Usuario</label>
+        <input id="username" name="username" autocomplete="username" required />
+        <label for="password">Contraseña</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required />
+        <p style="margin-top: 1.25rem">
+          <button type="submit">Entrar</button>
+        </p>
+      </form>
+      <p class="sub" style="margin-top: 1.25rem; margin-bottom: 0">
+        ¿No tiene cuenta? <a href="registro.html">Crear usuario</a>
+      </p>
+    </div>
+    <script src="js/common.js"></script>
+    <script src="js/login.js"></script>
+  </body>
+</html>
